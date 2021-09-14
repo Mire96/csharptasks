@@ -1,0 +1,207 @@
+﻿<Window x:Class="TheShopGui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TheShopGui"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Margin="0,0,0,-6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Enter city name: " 
+               Name="btnCityName" 
+               Grid.Row="2"
+               Grid.Column="0"
+               HorizontalAlignment="Right"  
+               VerticalAlignment="Center"/>
+        <TextBox Name="tfCityName" 
+                 Text=""
+                 Grid.Row="2"
+                 Grid.Column="1"
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Center" 
+                 Width="180"/>
+        <Label Content="Store information"
+               Grid.Row="4"
+               Grid.Column="0"
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center"/>
+        <Label Content="Store name: "
+               Grid.Row="5"
+               Grid.Column="0"
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center"/>
+        <TextBox Name="tfStoreName"
+                 Text=""
+                 Grid.Row="5"
+                 Grid.Column="1"
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Center" 
+                 Width="180"/>
+        <Label Content="Store address: " 
+               Grid.Row="6"
+               Grid.Column="0"
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center"/>
+        <TextBox Name="tfStoreAddress"
+                 Text=""
+                 Grid.Row="6"
+                 Grid.Column="1"
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Top" 
+                 Width="180"/>
+        <Button Content="Add new store" 
+                Name ="btnAddNewStore"  
+                Grid.Row="7"
+                Grid.Column="0"
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                Width="120" Click="btnAddNewStore_Click"/>
+        <Button Content="Finish store adding" 
+                Name ="btnFinishStoreAdding"
+                Grid.Row="7"
+                Grid.Column="1"
+                Click="btnFinishStoreAdding_Click"
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Top" 
+                Width="120" Margin="0,3,0,0"/>
+
+        <DataGrid  Name="dgridStoresInCity"
+                           AutoGenerateColumns="False"
+                   
+                           ItemsSource="{Binding StoresInCity}"
+                           CanUserAddRows="False"
+                           SelectionMode="Single"
+                           Grid.Row="2"
+						   Grid.RowSpan="6"
+                           Grid.Column="2"
+                           Grid.ColumnSpan="2">
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn   Header="Story name" Width="*" FontSize="12" IsReadOnly="True" Binding="{Binding Name}"/>
+                <DataGridTextColumn   Header="Story address" Width="*" FontSize="12" IsReadOnly="True" Binding="{Binding Address}"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+        <Label Content="Inventory information: " 
+               Grid.Row="10"
+               Grid.Column="0"
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center"/>
+
+        <Label Content="Store name: "
+               Grid.Row="11"
+               Grid.Column="0"
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center"/>
+
+        <TextBox Name="tfStoreName2"
+                 Text=""
+                 Grid.Row="11"
+                 Grid.Column="1"
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Center" 
+                 Width="180"/>
+
+        <Label Content="Product name: "
+               Grid.Row="12"
+               Grid.Column="0"
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center"/>
+
+        <TextBox Name="tfProductName"
+                 Text=""
+                 Grid.Row="12"
+                 Grid.Column="1"
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Center" 
+                 Width="180"/>
+
+        <Label Content="Quantity: "
+               Grid.Row="13"
+               Grid.Column="0"
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center"/>
+
+        <TextBox Name="tfQuantity"
+                 Text=""
+                 Grid.Row="13"
+                 Grid.Column="1"
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Center" 
+                 Width="180"/>
+
+        <DataGrid  Name="dgridInventory"
+                           AutoGenerateColumns="False"
+                   
+                           ItemsSource="{Binding Inventory}"
+                           CanUserAddRows="False"
+                           SelectionMode="Single"
+                           Grid.Row="10"
+						   Grid.RowSpan="6"
+                           Grid.Column="2"
+                           Grid.ColumnSpan="2">
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn   Header="Story name" Width="2*" FontSize="12" IsReadOnly="True" Binding="{Binding StoreName}"/>
+                <DataGridTextColumn   Header="Product name" Width="2*" FontSize="12" IsReadOnly="True" Binding="{Binding ProductName}"/>
+                <DataGridTextColumn   Header="Quantity" Width="*" FontSize="12" IsReadOnly="True" Binding="{Binding Quantity}"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Content="Add new inventory item" 
+                Name ="btnAddNewInventoryItem"  
+                Grid.Row="15"
+                Grid.Column="0"
+                Click="btnAddNewInventoryItem_Click"
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                Width="140"/>
+
+
+        <Button Content="Finish inventoring" 
+                Name ="btnFinishInventoring"  
+                Grid.Row="15"
+                Grid.Column="1"
+                Click="btnFinishInventoring_Click"
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                Width="140"/>
+
+    </Grid>
+</Window>
