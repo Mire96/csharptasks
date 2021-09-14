@@ -27,6 +27,8 @@ namespace TheShop
             Console.WriteLine(shop);
 
             shop.GroupInsertIntoTable();
+            city.InsertShops();
+            
 
             while (true)
             {

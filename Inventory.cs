@@ -11,12 +11,13 @@ namespace TheShop
     public class Inventory
     {
 
-        
+        public int Id { get; set; }
 
         public List<ItemValueRecord> ItemList { get; set; }
 
         public Inventory()
         {
+            Id = 1;
             ItemList = new List<ItemValueRecord>();
         }
 
@@ -40,23 +41,33 @@ namespace TheShop
 
         public void GroupInsertIntoTable()
         {
-            foreach (ItemValueRecord itemValueRecord in ItemList)
+            
+            string connectionString = "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=shopDb;";
+            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
             {
-                string connectionString = "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=shopDb;";
-                using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+                //string selectProductByName = $"SELECT * FROM public.ItemValueRecord where name = '{itemValueRecord.Item.Name()}'";
+                //connection.Query<ItemValueRecord>(selectProductByName).Single();
+
+                //itemValueRecord.Quantity = item.Quantity;
+                //itemValueRecord.Date = DateTime.Today.ToString("yyyy-MM-dd");
+                //connection.BeginTransaction();
+                int productId = 1;
+                if (ItemList.Any())
                 {
-                    //string selectProductByName = $"SELECT * FROM public.ItemValueRecord where name = '{itemValueRecord.Item.Name()}'";
-                    //connection.Query<ItemValueRecord>(selectProductByName).Single();
+                    foreach (ItemValueRecord itemValueRecord in ItemList)
+                    {
+                        itemValueRecord.Date = DateTime.Today.ToString("yyyy-MM-dd");
 
-                    //itemValueRecord.Quantity = item.Quantity;
-                    //itemValueRecord.Date = DateTime.Today.ToString("yyyy-MM-dd");
-                    //connection.BeginTransaction();
+                        string insertRecord = $"INSERT INTO shopdb.product(name, unit, unitprice)VALUES('{itemValueRecord.Item.Name}', '{itemValueRecord.Item.Unit.ToString()}',  {itemValueRecord.UnitPrice});";
+                        connection.Execute(insertRecord);
 
 
-                    string insertrecordInInventory = $"INSERT INTO shopdb.product(name, unit, quantity, unitprice)VALUES('{itemValueRecord.Item.Name}', '{itemValueRecord.Item.Unit.ToString()}', {itemValueRecord.Quantity}, {itemValueRecord.UnitPrice});";
-                    connection.Execute(insertrecordInInventory);
-
+                        string insertInventory = $"INSERT INTO shopdb.inventory(id, productid, quantity, date)VALUES ({Id}, {productId}, {itemValueRecord.Quantity}, '{itemValueRecord.Date}');";
+                        connection.Execute(insertInventory);
+                        productId++;
+                    }
                 }
+                
             }
             
         }
