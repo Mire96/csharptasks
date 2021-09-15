@@ -23,27 +23,27 @@ namespace TheShopGui
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Store> storeList;
+        List<Store> StoresInCity;
         Inventory inventory;
         public MainWindow()
         {
             InitializeComponent();
-            storeList = new List<Store>();
+            StoresInCity = new List<Store>();
             inventory = new Inventory();
+            dgridStoresInCity.ItemsSource = StoresInCity;
         }
 
         private void btnAddNewStore_Click(object sender, RoutedEventArgs e)
         {
             //Store store = new Store(tfCityName.Text, tfStoreName.Text, tfStoreAddress.Text);
-            //storeList.Add(store);
+            //StoresInCity.Add(store);
             Store shop1 = new Store("Beograd", "Aman", "Tadeusa Koscuska");
             Store shop2 = new Store("Beograd", "Maxi", "Maksima Gorkog");
             Store shop3 = new Store("Beograd", "Idea", "Kraljice Marije");
 
-            storeList.Add(shop1);
-            storeList.Add(shop2);
-            storeList.Add(shop3);
-
+            StoresInCity.Add(shop1);
+            StoresInCity.Add(shop2);
+            StoresInCity.Add(shop3);
         }
 
         private void btnFinishStoreAdding_Click(object sender, RoutedEventArgs e)
@@ -57,9 +57,9 @@ namespace TheShopGui
                 //itemValueRecord.Quantity = item.Quantity;
                 //itemValueRecord.Date = DateTime.Today.ToString("yyyy-MM-dd");
                 //connection.BeginTransaction();
-                if (storeList.Any())
+                if (StoresInCity.Any())
                 {
-                    foreach (Store store in storeList)
+                    foreach (Store store in StoresInCity)
                     {
                         string insertrecordInInventory = $"INSERT INTO shopdb.store(cityname, name, address)VALUES ('{store.CityName}', '{store.Name}', '{store.Address}');";
                         connection.Execute(insertrecordInInventory);

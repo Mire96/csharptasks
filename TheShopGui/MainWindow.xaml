@@ -109,8 +109,8 @@
 
             <DataGrid.Columns>
 
-                <DataGridTextColumn   Header="Story name" Width="*" FontSize="12" IsReadOnly="True" Binding="{Binding Name}"/>
-                <DataGridTextColumn   Header="Story address" Width="*" FontSize="12" IsReadOnly="True" Binding="{Binding Address}"/>
+                <DataGridTextColumn   Header="Story name" Width="*" FontSize="12" Binding="{Binding StoresInCity.Name}"/>
+                <DataGridTextColumn   Header="Story address" Width="*" FontSize="12" Binding="{Binding Address}"/>
 
             </DataGrid.Columns>
         </DataGrid>
