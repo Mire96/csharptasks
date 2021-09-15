@@ -67,6 +67,16 @@ namespace TheShopGui
                 }
 
             }
+
+            List<Store> stores = GetStoreList("Beograd");
+
+        }
+
+        private List<Store> GetStoreList(string cityname) 
+        {
+            List<Store> stores = new List<Store>();
+
+            return stores;
         }
 
         private void btnAddNewInventoryItem_Click(object sender, RoutedEventArgs e)
@@ -114,6 +124,16 @@ namespace TheShopGui
                     }
                 }
             }
+
+
         }
+
+        private Inventory GetInventory(string storename)
+        {
+            Inventory inventory = new Inventory();
+
+            return inventory;
+        }
+
     }
 }
