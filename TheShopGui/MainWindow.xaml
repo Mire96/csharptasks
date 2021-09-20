@@ -105,12 +105,12 @@
                            Grid.Row="2"
 						   Grid.RowSpan="6"
                            Grid.Column="2"
-                           Grid.ColumnSpan="2">
+                           Grid.ColumnSpan="2" SelectionChanged="dgridStoresInCity_SelectionChanged">
 
             <DataGrid.Columns>
-
-                <DataGridTextColumn   Header="Story name" Width="*" FontSize="12" Binding="{Binding StoresInCity.Name}"/>
-                <DataGridTextColumn   Header="Story address" Width="*" FontSize="12" Binding="{Binding Address}"/>
+                <DataGridTextColumn   Header="City name" Width="*" FontSize="12" Binding="{Binding CityName}"/>
+                <DataGridTextColumn   Header="Store name" Width="*" FontSize="12" Binding="{Binding Name}"/>
+                <DataGridTextColumn   Header="Store address" Width="*" FontSize="12" Binding="{Binding Address}"/>
 
             </DataGrid.Columns>
         </DataGrid>
@@ -167,7 +167,7 @@
         <DataGrid  Name="dgridInventory"
                            AutoGenerateColumns="False"
                    
-                           ItemsSource="{Binding Inventory}"
+                           ItemsSource="{Binding InventoryItems}"
                            CanUserAddRows="False"
                            SelectionMode="Single"
                            Grid.Row="10"
@@ -177,8 +177,7 @@
 
             <DataGrid.Columns>
 
-                <DataGridTextColumn   Header="Story name" Width="2*" FontSize="12" IsReadOnly="True" Binding="{Binding StoreName}"/>
-                <DataGridTextColumn   Header="Product name" Width="2*" FontSize="12" IsReadOnly="True" Binding="{Binding ProductName}"/>
+                <DataGridTextColumn   Header="Product name" Width="2*" FontSize="12" IsReadOnly="True" Binding="{Binding Item}"/>
                 <DataGridTextColumn   Header="Quantity" Width="*" FontSize="12" IsReadOnly="True" Binding="{Binding Quantity}"/>
 
             </DataGrid.Columns>

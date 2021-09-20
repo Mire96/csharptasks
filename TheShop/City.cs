@@ -47,5 +47,20 @@ namespace TheShop
 
             }
         }
+
+        public List<Store> GetStoreList()
+        {
+            List<Store> stores = new List<Store>();
+
+            string connectionString = "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=shopDb;";
+            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+            {
+                string selectStoreByCityName = $"SELECT * FROM shopdb.store where cityname = '{Name}'";
+                stores = (List<Store>)connection.Query<Store>(selectStoreByCityName);
+            }
+
+
+            return stores;
+        }
     }
 }

@@ -9,6 +9,8 @@ namespace TheShop
     public class ItemValueRecord
     {
         public int Id { get; set; }
+
+        public int InventoryId { get; set; }
         public Item Item { get; set; }
 
         public int Quantity { get; set; }
@@ -34,6 +36,16 @@ namespace TheShop
             Item = item;
             Quantity = quantity;
             UnitPrice = unitPrice;
+        }
+
+        public ItemValueRecord(int id, string name, string unit, double unitprice, double quantity, int inventoryId, string date)
+        {
+            Id = id;
+            Item = new Item(name, ConvertUnitMeasure(unit.ToUpper()));
+            Quantity = Convert.ToInt32(quantity);
+            UnitPrice = unitprice;
+            InventoryId = inventoryId;
+            Date = date;
         }
 
         private UnitMeasure ConvertUnitMeasure(string unitMeasure)
@@ -65,7 +77,7 @@ namespace TheShop
 
         public override string ToString()
         {
-            return $"Name: {Item}, Quantity: {Quantity}, Unit: {Item.Unit}, Price: {UnitPrice}, Total value: {CalculateValue()}";
+            return $"Name: {Item}, Quantity: {Quantity}, Unit: {Item.Unit}, Price: {UnitPrice}, Date added: {this.Date}, Total value: {CalculateValue()}";
         }
     }
 }

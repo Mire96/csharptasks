@@ -12,12 +12,19 @@ namespace TheShop
     {
 
         public int Id { get; set; }
-
+        public string StoreName { get; set; }
         public List<ItemValueRecord> ItemList { get; set; }
 
         public Inventory()
         {
             Id = 1;
+            ItemList = new List<ItemValueRecord>();
+        }
+
+        public Inventory(int id, string storeName)
+        {
+            Id = id;
+            StoreName = storeName;
             ItemList = new List<ItemValueRecord>();
         }
 

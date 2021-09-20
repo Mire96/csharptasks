@@ -23,9 +23,9 @@ namespace TheShop
             Inventory = new Inventory();
         }
 
-        public Store(string cityName, string name, string address)
+        public Store(int id, string cityName, string name, string address)
         {
-            //Id = id;
+            Id = id;
             CityName = cityName;
             Name = name;
             Address = address;

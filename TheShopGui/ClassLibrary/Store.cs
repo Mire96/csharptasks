@@ -32,6 +32,15 @@ namespace ClassLibrary
             Inventory = new Inventory();
         }
 
+        public Store(int id, string cityName, string name, string address)
+        {
+            Id = id;
+            CityName = cityName;
+            Name = name;
+            Address = address;
+            Inventory = new Inventory();
+        }
+
         public void AddRecord(ItemValueRecord item)
         {
             Inventory.AddRecord(item);

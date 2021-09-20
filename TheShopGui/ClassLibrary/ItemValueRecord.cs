@@ -9,6 +9,8 @@ namespace ClassLibrary
     public class ItemValueRecord
     {
         public int Id { get; set; }
+
+        public int InventoryId { get; set; }
         public Item Item { get; set; }
 
         public int Quantity { get; set; }
@@ -34,6 +36,16 @@ namespace ClassLibrary
             Item = item;
             Quantity = quantity;
             UnitPrice = unitPrice;
+        }
+
+        public ItemValueRecord(int id, string name, string unit, double unitprice, double quantity, int inventoryId, string date)
+        {
+            Id = id;
+            Item = new Item(name, ConvertUnitMeasure(unit.ToUpper()));
+            Quantity = Convert.ToInt32(quantity);
+            UnitPrice = unitprice;
+            InventoryId = inventoryId;
+            Date = date;
         }
 
         private UnitMeasure ConvertUnitMeasure(string unitMeasure)

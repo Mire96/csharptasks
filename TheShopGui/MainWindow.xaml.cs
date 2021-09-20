@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,27 +24,83 @@ namespace TheShopGui
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Store> StoresInCity;
+        ObservableCollection<Store> StoresInCity = new ObservableCollection<Store>();
         Inventory inventory;
+        ObservableCollection<ItemValueRecord> InventoryItems = new ObservableCollection<ItemValueRecord>();
         public MainWindow()
         {
             InitializeComponent();
-            StoresInCity = new List<Store>();
-            inventory = new Inventory();
+            StoresInCity = new ObservableCollection<Store>(GetStoreList("Beograd"));
+            //inventory = new Inventory();
+            AssignInventory(InventoryItems);
             dgridStoresInCity.ItemsSource = StoresInCity;
+
+
+            
+            GetInventories(StoresInCity.ToList());
+        }
+
+        private void AssignInventory(ObservableCollection<ItemValueRecord> InventoryItems)
+        {
+            InventoryItems = new ObservableCollection<ItemValueRecord>(new List<ItemValueRecord>());
+            if(dgridStoresInCity.SelectedItem != null)
+            {
+                Store store = (Store)dgridStoresInCity.SelectedItem;
+                InventoryItems = new ObservableCollection<ItemValueRecord>(store.Inventory.ItemList);
+            }
+
+            dgridInventory.ItemsSource = InventoryItems;
+
+            
+        }
+
+        private void GetInventories(List<Store> storesInCity)
+        {
+            
+            string connectionString = "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=shopDb;";
+            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+            {
+                foreach (Store store in storesInCity)
+                {
+                    string selectInventoryByStoreName = $"SELECT * FROM shopdb.inventory where storename = '{store.Name}'";
+                    Inventory inventory = connection.Query<Inventory>(selectInventoryByStoreName).SingleOrDefault();
+                    if(inventory == null)
+                    {
+                        inventory = new Inventory(0, store.Name);
+                    }
+                    store.Inventory = inventory;
+
+                    GetItemValueRecords(store.Inventory);
+                }
+            }
+        }
+
+        private void GetItemValueRecords(Inventory inventory)
+        {
+            
+            string connectionString = "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=shopDb;";
+            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+            {
+                string selectStoreByCityName = $"SELECT * FROM shopdb.product where inventoryid = {inventory.Id}";
+                inventory.ItemList = (List<ItemValueRecord>)connection.Query<ItemValueRecord>(selectStoreByCityName);
+            }
+
+            MessageBox.Show("ItemValueRecords successfuly retrieved from database!");
         }
 
         private void btnAddNewStore_Click(object sender, RoutedEventArgs e)
         {
-            //Store store = new Store(tfCityName.Text, tfStoreName.Text, tfStoreAddress.Text);
-            //StoresInCity.Add(store);
-            Store shop1 = new Store("Beograd", "Aman", "Tadeusa Koscuska");
-            Store shop2 = new Store("Beograd", "Maxi", "Maksima Gorkog");
-            Store shop3 = new Store("Beograd", "Idea", "Kraljice Marije");
+            Store store = new Store(tfCityName.Text, tfStoreName.Text, tfStoreAddress.Text);
+            StoresInCity.Add(store);
+            //Store shop1 = new Store("Beograd", "Aman", "Tadeusa Koscuska");
+            //Store shop2 = new Store("Beograd", "Maxi", "Maksima Gorkog");
+            //Store shop3 = new Store("Beograd", "Idea", "Kraljice Marije");
 
-            StoresInCity.Add(shop1);
-            StoresInCity.Add(shop2);
-            StoresInCity.Add(shop3);
+            //StoresInCity.Add(shop1);
+            //StoresInCity.Add(shop2);
+            //StoresInCity.Add(shop3);
+
+            
         }
 
         private void btnFinishStoreAdding_Click(object sender, RoutedEventArgs e)
@@ -64,17 +121,29 @@ namespace TheShopGui
                         string insertrecordInInventory = $"INSERT INTO shopdb.store(cityname, name, address)VALUES ('{store.CityName}', '{store.Name}', '{store.Address}');";
                         connection.Execute(insertrecordInInventory);
                     }
+
+                    MessageBox.Show("Stores successfuly added to database!");
                 }
 
             }
 
-            List<Store> stores = GetStoreList("Beograd");
+            
 
         }
 
         private List<Store> GetStoreList(string cityname) 
         {
             List<Store> stores = new List<Store>();
+
+            string connectionString = "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=shopDb;";
+            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+            {
+                string selectStoreByCityName = $"SELECT * FROM shopdb.store where cityname = '{cityname}'";
+                stores = (List<Store>) connection.Query<Store>(selectStoreByCityName);
+            }
+
+            MessageBox.Show("Stores successfuly retrieved from database!");
+
 
             return stores;
         }
@@ -94,6 +163,8 @@ namespace TheShopGui
             inventory.AddRecord(milk);
             inventory.AddRecord(flour);
             inventory.AddRecord(orangeJuice);
+
+            MessageBox.Show("Items successfuly added to inventory!");
         }
 
         private void btnFinishInventoring_Click(object sender, RoutedEventArgs e)
@@ -108,32 +179,53 @@ namespace TheShopGui
                 //itemValueRecord.Date = DateTime.Today.ToString("yyyy-MM-dd");
                 //connection.BeginTransaction();
                 int productId = 1;
-                if (inventory.ItemList.Any())
+                Store store = (Store)dgridStoresInCity.SelectedItem;
+                if (inventory.ItemList.Any() && store != null)
                 {
+
+                    store.Inventory = inventory;
+                    string insertInventory = $"INSERT INTO shopdb.inventory(storename)VALUES ('{store.Name}');";
+                    connection.Execute(insertInventory);
                     foreach (ItemValueRecord itemValueRecord in inventory.ItemList)
                     {
                         itemValueRecord.Date = DateTime.Today.ToString("yyyy-MM-dd");
 
-                        string insertRecord = $"INSERT INTO shopdb.product(name, unit, unitprice)VALUES('{itemValueRecord.Item.Name}', '{itemValueRecord.Item.Unit.ToString()}',  {itemValueRecord.UnitPrice});";
+                        string insertRecord = $"INSERT INTO shopdb.product(id, name, unit, unitprice, quantity, inventoryid, date)VALUES({productId}, '{itemValueRecord.Item.Name}', '{itemValueRecord.Item.Unit.ToString()}',  {itemValueRecord.UnitPrice}, {itemValueRecord.Quantity}, {inventory.Id}, '{itemValueRecord.Date}');";
                         connection.Execute(insertRecord);
 
 
-                        string insertInventory = $"INSERT INTO shopdb.inventory(id, productid, quantity, date)VALUES ({inventory.Id}, {productId}, {itemValueRecord.Quantity}, '{itemValueRecord.Date}');";
-                        connection.Execute(insertInventory);
+                        
                         productId++;
                     }
+
+                    MessageBox.Show("Inventory successfuly added to database!");
+                }
+                else
+                {
+                    MessageBox.Show("Please select a store");
                 }
             }
 
 
         }
 
-        private Inventory GetInventory(string storename)
+        private void dgridStoresInCity_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Inventory inventory = new Inventory();
-
-            return inventory;
+            AssignInventory(InventoryItems);
         }
+
+
+
+
+
+        //private Inventory GetInventory(string storename)
+        //{
+        //    Inventory inventory = new Inventory();
+
+        //    //Finish this method and copy it to the console app
+        //    //return inventory;
+
+        //}
 
     }
 }
