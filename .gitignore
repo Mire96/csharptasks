@@ -5,3 +5,5 @@
 /obj
 /.vs/TheShop/v15
 /.vs/TheShop/DesignTimeBuild
+/TheShopWebServer/obj
+/TheShopWebServer/bin/Debug/net5.0

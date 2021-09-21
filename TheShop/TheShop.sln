@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheShop", "TheShop.csproj", "{7D43F22B-DCDF-4667-8692-C3F7B8132E3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheShopGui", "..\TheShopGui\TheShopGui.csproj", "{53CB415E-CAB6-4B26-BB79-7CD46D46EECE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheShopGui", "..\TheShopGui\TheShopGui.csproj", "{53CB415E-CAB6-4B26-BB79-7CD46D46EECE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary", "..\ClassLibrary\ClassLibrary.csproj", "{E5421C44-4EA8-45CB-8D76-21C5263782FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibrary", "..\ClassLibrary\ClassLibrary.csproj", "{E5421C44-4EA8-45CB-8D76-21C5263782FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheShopWebServer", "..\TheShopWebServer\TheShopWebServer.csproj", "{911EA7DC-816D-40FF-8D0D-F027E312AD42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{E5421C44-4EA8-45CB-8D76-21C5263782FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5421C44-4EA8-45CB-8D76-21C5263782FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5421C44-4EA8-45CB-8D76-21C5263782FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{911EA7DC-816D-40FF-8D0D-F027E312AD42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{911EA7DC-816D-40FF-8D0D-F027E312AD42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{911EA7DC-816D-40FF-8D0D-F027E312AD42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{911EA7DC-816D-40FF-8D0D-F027E312AD42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
