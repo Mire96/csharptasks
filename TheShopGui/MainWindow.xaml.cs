@@ -193,8 +193,6 @@ namespace TheShopGui
                         string insertRecord = $"INSERT INTO shopdb.product(id, name, unit, unitprice, quantity, inventoryid, date)VALUES({productId}, '{itemValueRecord.Item.Name}', '{itemValueRecord.Item.Unit.ToString()}',  {itemValueRecord.UnitPrice}, {itemValueRecord.Quantity}, {inventory.Id}, '{itemValueRecord.Date}');";
                         connection.Execute(insertRecord);
 
-
-                        
                         productId++;
                     }
 

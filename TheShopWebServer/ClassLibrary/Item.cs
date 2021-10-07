@@ -17,12 +17,6 @@ namespace ClassLibrary
                    Name == item.Name;
         }
 
-        public Item()
-        {
-        }
-
-
-
         public Item(string name, UnitMeasure unit)
         {
             Name = name;
